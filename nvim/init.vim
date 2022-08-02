@@ -8,7 +8,8 @@ set tabstop=4
 call plug#begin('~/.config/nvim/plugged')
 
 " Styling
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
+Plug 'zacanger/angr.vim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
 Plug 'itchyny/lightline.vim'
@@ -23,9 +24,6 @@ Plug 'liuchengxu/vim-which-key'
 " Linting
 Plug 'dense-analysis/ale'
 
-" Jump to definition/reference
-Plug 'neoclide/coc.nvim', {'brach' : 'release'}
-
 " Animate Colors
 Plug 'chrisbra/Colorizer'
 
@@ -36,8 +34,7 @@ let g:rooter_patterns = ['.git', 'Makefile', 'build']
 let g:fzf_layout = { 'down': '40%' }
 
 " Styling
-colorscheme gruvbox
-
+colorscheme angr
 
 " Linting
 let g:ale_linters = {
