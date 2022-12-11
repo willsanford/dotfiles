@@ -167,33 +167,30 @@ font:
 # Colors (ArcoLinux)
 # Colors (PaperColor - Dark)
 colors:
-  # Default colors
+  name: Splurge
+  author: ""
   primary:
-    background: '#000000'
-    foreground: '#ffffff'
+    background: "#000000"
+    foreground: "#ffffff"
   cursor:
-    text: '#F81CE5'
-    cursor: '#ffffff'
-
-  # Normal colors
+    text: "#000000"
+    cursor: "#ffffff"
   normal:
-    black: '#000000'
-    red: '#fe0100'
-    green: '#33ff00'
-    yellow: '#feff00'
-    blue: '#0066ff'
-    magenta: '#cc00ff'
-    cyan: '#00ffff'
-    white: '#d0d0d0'
-
-  # Bright colors
+    black: "#4a4b4a"
+    red: "#d7699a"
+    green: "#80d468"
+    yellow: "#d7a169"
+    blue: "#6985d7"
+    magenta: "#c86ad4"
+    cyan: "#6fccd1"
+    white: "#dbdcdc"
   bright:
-    black: '#808080'
-    red: '#fe0100'
-    green: '#33ff00'
-    yellow: '#feff00'
-    blue: '#0066ff'
-    magenta: '#cc00ff'
-    cyan: '#00ffff'
-    white: '#FFFFFF'
-theme: Hyper
+    black: "#696969"
+    red: "#f5a2b5"
+    green: "#a3f2a0"
+    yellow: "#f5cda2"
+    blue: "#a2c1f5"
+    magenta: "#d2a2f5"
+    cyan: "#a0e9f2"
+    white: "#fdfdfd"
+theme: Splurge

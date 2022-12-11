@@ -7,6 +7,8 @@ set softtabstop=4
 set tabstop=4
 call plug#begin('~/.config/nvim/plugged')
 
+" Rust
+Plug 'rust-lang/rust.vim'
 " Styling
 " Plug 'morhetz/gruvbox'
 Plug 'zacanger/angr.vim'
