@@ -20,11 +20,13 @@ set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-
+set rtp^="/home/wsanf/.opam/default/share/ocp-indent/vim"
 let mapleader = " "
 
 call plug#begin()
+ Plug 'craftzdog/solarized-osaka.nvim'
  Plug 'nvim-lua/plenary.nvim'
+ Plug 'github/copilot.vim'
  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.4' }
  Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
  Plug 'morhetz/gruvbox'
@@ -53,3 +55,5 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+" set the darkest cappuccin colorscheme
+colorscheme solarized-osaka 
