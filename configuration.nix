@@ -1,85 +1,70 @@
 { config, pkgs, ... }:
 
 {
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ];
 
-  imports = [
-    /etc/nixos/hardware-configuration.nix
-  ];
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  # paste your boot config here...
+  networking.hostName = "nixos"; # Define your hostname.
+  networking.networkmanager.enable = true;
 
-  networking = {
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [];
-      allowedUDPPorts = [];
-    };
-    hostName = "Nimbus-2021";
-    networkmanager.enable = true;
+  time.timeZone = "America/New_York";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_US.UTF-8";
+    LC_IDENTIFICATION = "en_US.UTF-8";
+    LC_MEASUREMENT = "en_US.UTF-8";
+    LC_MONETARY = "en_US.UTF-8";
+    LC_NAME = "en_US.UTF-8";
+    LC_NUMERIC = "en_US.UTF-8";
+    LC_PAPER = "en_US.UTF-8";
+    LC_TELEPHONE = "en_US.UTF-8";
+    LC_TIME = "en_US.UTF-8";
   };
 
-  # edit as per your location and timezone
+  services.xserver.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.cinnamon.enable = true;
+
+  services.xserver = {
+    layout = "us";
+    xkbVariant = "";
+  };
+
+  services.printing.enable = true;
 
   sound.enable = true;
-
-  services = {
-    xserver = {
-      layout = "us";
-      xkbVariant = "";
-      enable = true;
-      windowManager.i3 = {
-        enable = true;
-        extraPackages = with pkgs; [
-          i3status
-        ];
-      };
-      desktopManager = {
-        xterm.enable = false;
-        xfce = {
-          enable = true;
-          noDesktop = true;
-          enableXfwm = false;
-        };
-      };
-      displayManager = {
-        lightdm.enable = true;
-        defaultSession = "xfce+i3";
-      };
-    };
-    gvfs.enable = true;
-    gnome.gnome-keyring.enable = true;
-    blueman.enable = true;
-    pipewire = {
-      enable = true;
-      alsa = {
-        enable = true;
-        support32Bit = true;
-      };
-      pulse.enable = true;
-    };
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      pulseaudio = true;
-    };
-  };
-  
-  virtualisation.docker.enable = true;
-  # Edit the username below (replace 'neeraj')
-  users.users.wsanf= {
+  users.users.wsanf = {
     isNormalUser = true;
     description = "wsanf";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      firefox 
-      xarchiver
+      firefox
+      xarchiver 
     ];
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   environment.systemPackages = with pkgs; [
     alacritty
+    vscode
+    neovim
     dmenu
     git
     gnome.gnome-keyring
@@ -91,47 +76,26 @@
     polkit_gnome
     pulseaudioFull
     rofi
-    neovim
     unrar
     unzip
-
     nodejs
-
-
+    tmux
+    rustc
+    cargo
+    clang
+    clang-tools
+    rustfmt
+    rust-analyzer
   ];
 
-  programs = {
-    thunar.enable = true;
-    dconf.enable = true;
-  };
+  services.openssh.enable = true;
 
-  security = {
-    polkit.enable = true;
-    rtkit.enable = true;
-  };
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "23.11"; # Did you read the comment?
 
-  systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart =
-          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-    };
-  };
-
-  hardware = {
-    bluetooth.enable = true;
-  };
-
-  # Don't touch this
-  system.stateVersion = "23.05";
 }
-

@@ -32,21 +32,26 @@ call plug#begin()
  Plug 'morhetz/gruvbox'
  Plug 'vim-airline/vim-airline'
  Plug 'vim-airline/vim-airline-themes'
- Plug 'neoclide/coc.nvim', {'branch': 'release'}
  Plug 'rust-lang/rust.vim'
  Plug 'nvim-treesitter/nvim-treesitter', {'do': 'TSUpdate'}
  Plug 'lervag/vimtex'
+ Plug 'neovim/nvim-lspconfig'
+ Plug 'simrat39/rust-tools.nvim'
+ Plug 'hrsh7th/nvim-cmp'
+ Plug 'hrsh7th/cmp-nvim-lsp'
+ Plug 'onsails/lspkind-nvim'
 call plug#end()
 let g:rustfmt_autosave = 1
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
 set noshowmode
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> qf <Plug>(coc-fix-current)
+lua << EOF
+require'lspconfig'.clangd.setup{}
+require'lspconfig'.rust_analyzer.setup{}
+require('rust.lua')
+EOF
+
 set termguicolors
 
 " Find files using Telescope command-line sugar.
