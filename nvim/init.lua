@@ -40,6 +40,7 @@ call plug#begin()
  Plug 'neovim/nvim-lspconfig'
  Plug 'simrat39/rust-tools.nvim'
  Plug 'hrsh7th/nvim-cmp'
+ Plug 'hrsh7th/cmp-path'
  Plug 'hrsh7th/cmp-nvim-lsp'
  Plug 'onsails/lspkind-nvim'
 call plug#end()
@@ -49,7 +50,7 @@ vim.g.rustfmt_autosave = 1
 
 vim.o.showmode = false
 
--- LSP Setup
+-- LSP Setup - Add new LSPs here
 require('lspconfig').clangd.setup{}
 require('lspconfig').rust_analyzer.setup{}
 -- Set completeopt to have a better completion experience
@@ -67,9 +68,6 @@ local function on_attach(client, buffer)
   -- we could set keymaps related to LSP, etc here.
 end
 
--- Configure LSP through rust-tools.nvim plugin.
--- rust-tools will configure and enable certain LSP features for us.
--- See https://github.com/simrat39/rust-tools.nvim#configuration
 local opts = {
   tools = {
     runnables = {
@@ -137,6 +135,12 @@ cmp.setup({
     { name = "path" },
     { name = "buffer" },
   },
+})
+
+cmp.setup.cmdline(':', {
+  sources = cmp.config.sources({
+    {name = 'path' }
+  })
 })
 
 
