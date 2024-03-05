@@ -4,11 +4,23 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./hm.nix
     ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
 
+  # Disable systemd-boot
+  # boot.loader.systemd-boot.enable = false; 
+
+  # Enable and configure GRUB
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev"; # for UEFI, set to the EFI system partition, e.g., "/dev/sda1"
+    efiSupport = true;
+    useOSProber = true;
+  };
+  
   networking.hostName = "nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
 
@@ -39,6 +51,8 @@
 
   services.printing.enable = true;
 
+  time.hardwareClockInLocalTime = true;
+
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -61,10 +75,11 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+
   environment.systemPackages = with pkgs; [
-    alacritty
     vscode
-    neovim
     dmenu
     git
     gnome.gnome-keyring
@@ -78,14 +93,8 @@
     rofi
     unrar
     unzip
-    nodejs
-    tmux
-    rustc
-    cargo
-    clang
-    clang-tools
-    rustfmt
-    rust-analyzer
+    neofetch
+    rclone
   ];
 
   services.openssh.enable = true;
